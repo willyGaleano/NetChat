@@ -1,0 +1,17 @@
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Application.deps.json
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Application.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\ref\Application.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Application.pdb
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Domain.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Persistence.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Domain.pdb
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\bin\Debug\net5.0\Persistence.pdb
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.csprojAssemblyReference.cache
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.AssemblyInfoInputs.cache
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.AssemblyInfo.cs
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.csproj.CoreCompileInputs.cache
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.csproj.CopyComplete
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\ref\Application.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\Application\obj\Debug\net5.0\Application.pdb
