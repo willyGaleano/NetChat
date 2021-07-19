@@ -1,35 +1,36 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Icon, Menu} from "semantic-ui-react";
 import { IChannel } from "../../models/channels";
 import ChannelForm from "./ChannelForm";
-import { ChannelItem } from "./ChannelItem";
+import ChannelItem from "./ChannelItem";
 import { RootStoreContext} from "../../stores/rootStore";
 import {observer } from "mobx-react-lite";
 
-
 const Channels = () => {
   const rootStore = useContext(RootStoreContext);
-  const {channels, loadChannels, showModal} = rootStore.channelStore
-
-  //const openModal = () => setModal(true);
-  //const closeModal = () => setModal(false);
-
+  const { channels, loadChannels, showModal, setActiveChannel, getCurrentChannel } = rootStore.channelStore
+  const { loadMessages } = rootStore.messageStore;
+  
   useEffect(() => {
     loadChannels();
-  }, [loadChannels]);
+  }, [loadChannels, setActiveChannel]);
   
+  const changeChannel = (channel: IChannel) => {
+    setActiveChannel(channel);
+    loadMessages(getCurrentChannel()?.id!);
+    //console.log(getCurrentChannel());
+  }
   
   const displayChannels = (channels: IChannel[]) => {
     
     return (
       channels.length > 0 &&
       channels.map((channel) => (
-          <ChannelItem key={channel.id} channel={ channel}/>
+        <ChannelItem key={channel.id} channel={channel} changeChannel={ changeChannel}/>
       ))
     );
   };
 
-  console.log(channels);
   return (
     <>
       
@@ -38,7 +39,7 @@ const Channels = () => {
           <span>
             <Icon name="exchange" /> CHANNELS
           </span>
-          {"  "}({channels.length}) <Icon name="add" onClick={() => showModal(true)} />
+          ({channels.length}) <Icon name="add" onClick={() => showModal(true)} />
         </Menu.Item>
         {displayChannels(channels)}
       </Menu.Menu>

@@ -43,5 +43,11 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+
+        [HttpGet("private/{id}")]
+        public async Task<ActionResult<ChannelDto>> PrivateChannel(string id)
+        {
+            return await Mediator.Send( new PrivateChannelDetail.Query { UserId = id });
+        }
     }
 }

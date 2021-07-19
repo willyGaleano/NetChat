@@ -24,6 +24,9 @@ namespace Persistence.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -33,6 +36,9 @@ namespace Persistence.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsOnline")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
@@ -86,10 +92,16 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ChannelType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PrivateChannelId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -99,22 +111,55 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aafb2533-ab00-4d18-a6d3-8968af5ee965"),
+                            Id = new Guid("c2055ff5-4aae-48e8-baa4-dcf22b1d57d1"),
+                            ChannelType = 0,
                             Description = "Canal dedicado a dotnet core",
                             Name = "DotNetCore"
                         },
                         new
                         {
-                            Id = new Guid("a812e39c-bbdd-4092-80ef-4b15a71fb278"),
+                            Id = new Guid("020006e5-693d-40b0-801d-ae3766f3f4a0"),
+                            ChannelType = 0,
                             Description = "Canal dedicado a dotnet react js",
                             Name = "React JS"
                         },
                         new
                         {
-                            Id = new Guid("6122808d-8744-4bfb-a50b-37a91a4c15d8"),
+                            Id = new Guid("b6da5869-a05b-46d3-8637-ed546fc3de4e"),
+                            ChannelType = 0,
                             Description = "Canal dedicado a dotnet angular",
                             Name = "Angular"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ChannelId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MessageType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -243,6 +288,19 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.HasOne("Domain.Channel", "Channel")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "Sender")
+                        .WithMany("Messages")
+                        .HasForeignKey("SenderId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

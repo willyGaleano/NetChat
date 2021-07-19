@@ -18,6 +18,7 @@ namespace Persistence
         }
 
         public DbSet<Channel> Channels { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,8 +43,12 @@ namespace Persistence
                     Description = "Canal dedicado a dotnet angular"
                 });
 
-
-            
+            modelBuilder.Entity<Message>()
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.Messages)
+                .HasForeignKey(x => x.SenderId);
         }
+
+        
     }
 }

@@ -25,6 +25,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using AutoMapper;
+using Infrastructure.MediaUpload;
+using API.SignalR;
 
 namespace API
 {
@@ -53,7 +56,8 @@ namespace API
                             policy
                             .WithOrigins("http://localhost:3000")
                             .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowAnyHeader()
+                            .AllowCredentials();
                         }
                     );
             });
@@ -80,12 +84,37 @@ namespace API
                             ValidateAudience = false,
                             ValidateIssuer = false
                         };
+
+                        //para pasar el token por query string
+                        opt.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                var accessToken = context.Request.Query["access_token"];
+
+                                var path = context.HttpContext.Request.Path;
+
+                                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat")){
+                                    context.Token = accessToken;
+                                }
+
+                                return Task.CompletedTask;
+                            }
+                        };
                     }
                 );
 
             //misma instancia en toda la solicitud
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+
+            services.AddAutoMapper(typeof(Application.Channels.Details));
+            //services.Configure<ClaudinarySettings>("dblrq911l");
+
+            services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
+            services.AddScoped<IMediaUpload, MediaUpload>();
+
+            services.AddSignalR();
 
             services
                 .AddControllers(
@@ -135,6 +164,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

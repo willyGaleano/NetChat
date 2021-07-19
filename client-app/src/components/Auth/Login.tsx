@@ -1,11 +1,27 @@
 import { Link } from 'react-router-dom';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Icon, Label, Message, Segment } from 'semantic-ui-react';
+import TextInput from "../Common/Form/TextInput";
+import { useContext } from 'react';
+import { RootStoreContext } from '../../stores/rootStore';
+import { IUserFormValues } from '../../models/users';
+import { FORM_ERROR } from 'final-form';
+import { combineValidators, isRequired } from 'revalidate';
+
 
 const Login = () => {
-    const showResults = async(values:any) => {
-        console.log(values);
+    
+    const validate = combineValidators({
+        email: isRequired("Email"),
+        password: isRequired("Password")
+    });
+    const rootStore = useContext(RootStoreContext);
+    const { login } = rootStore.userStore;
+    
+    const handleSubmitForm = async(values:IUserFormValues) => {
+        return login(values).catch((error) => ({ [FORM_ERROR]: error }))
     }
+
     return (
         <Grid textAlign="center" verticalAlign="middle" className="app">
             <Grid.Column style={{maxWidth: 450}}>
@@ -14,49 +30,35 @@ const Login = () => {
                     Login for NetChat
                 </Header>
                 <FinalForm
-                    onSubmit={showResults}
-                    render={({ handleSubmit, submitting, values }) => (<Form size="large" onSubmit={handleSubmit}>
+                    onSubmit={handleSubmitForm}
+                    validate={validate}
+                    render={({ handleSubmit, submitting, form, submitError }) => (<Form size="large" onSubmit={handleSubmit}>
                         <Segment stacked>
                             <Field
                                 name="email"
-                                component="input"
-                                validate={(value) => (value ? undefined: "Required")}
+                                placeholder="Email Address"
+                                type="text"
+                                icon="mail icon"
+                                component={TextInput}
+                                //validate={(value) => (value ? undefined: "Required")}
                             />
                             <Field
                                 name="password"
                                 placeholder="Password"
-                                type="text"
-                                validate={(value) => (value ? undefined : "Required")}
-                                whatever="test"
+                                type="password"
+                                icon="lock icon"
+                                component={TextInput}
+                                //validate={(value) => (value ? undefined : "Required")}
+                                //whatever="test"
                             >
-                                {({input, meta, placeholder}) => (
-                                    <div>
-                                        <input {...input} placeholder={placeholder} />
-                                        {meta.error && meta.touched && <span>{ meta.error}</span>}
-                                    </div>
-                                    
-                                )}
+                                
                             </Field>
-                        <Form.Input
-                            fluid
-                            name="email"
-                            icon="mail"
-                            iconPosition="left"
-                            placeholder="Email Addres"
-                            type="email"
-                        />
-                        <Form.Input
-                            fluid
-                            name="password"
-                            icon="lock"
-                            iconPosition="left"
-                            placeholder="Password"
-                            type="password"
-                        />
+                       
                         <Button color="violet" fluid size="large" disabled={submitting}>
                                 Submit
                         </Button>
-                            <pre>{ JSON.stringify(values,undefined, 2)}</pre>
+                            {submitError && (<Label color="red" basic content={submitError.statusText}/>)}
+                            <pre>{ JSON.stringify(form.getState(),undefined, 2)}</pre>
                     </Segment>
                     </Form>)}>
                     

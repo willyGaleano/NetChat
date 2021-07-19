@@ -17,11 +17,12 @@ namespace Application.User
 {
     public class Register
     {
-        public class Command: IRequest<User>
+        public class Command: IRequest<UserDto>
         {
             public string UserName { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            public string Avatar { get; set; }
         }
 
         public class CommandValidator: AbstractValidator<Command>
@@ -43,7 +44,7 @@ namespace Application.User
             }
         }
 
-        public class Handler : IRequestHandler<Command, User>
+        public class Handler : IRequestHandler<Command, UserDto>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IJwtGenerator _jwtGenerator;
@@ -54,7 +55,7 @@ namespace Application.User
                 _jwtGenerator = jwtGenerator;
             }
 
-            public async Task<User> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 //if(await _userManager.FindByEmailAsync(request.Email) != null)
                 //{
@@ -68,14 +69,15 @@ namespace Application.User
                 var user = new AppUser
                 {
                     Email = request.Email,
-                    UserName = request.UserName
+                    UserName = request.UserName,
+                    Avatar = request.Avatar
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
 
                 if (result.Succeeded)
                 {
-                    return new User
+                    return new UserDto
                     {
                         UserName = user.UserName,
                         Email = user.Email,

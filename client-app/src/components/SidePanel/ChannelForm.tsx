@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useState } from 'react'
 import { Button, Form, Icon, Input, Modal } from 'semantic-ui-react'
-import { IChannel } from '../../models/channels'
+import { ChannelType, IChannel } from '../../models/channels'
 import { v4 as uuid } from "uuid";
 import { RootStoreContext } from "../../stores/rootStore";
 import { observer } from "mobx-react-lite";
@@ -12,6 +12,7 @@ const ChannelForm: React.FC = () => {
     id: "",
     name: "",
     description: "",
+    channelType: ChannelType.Channel
   }
   const [channel, setChannel] = useState<IChannel>(initialChannel);
   const rootStore = useContext(RootStoreContext);
@@ -29,8 +30,9 @@ const ChannelForm: React.FC = () => {
     showModal(false);
   }
 
-    return (
-        <Modal basic open={isModalVisible}>
+  return (
+      <>
+        <Modal basic open={isModalVisible} onClose={() => showModal(false)} >
         <Modal.Header>Add Channel</Modal.Header>
         <Modal.Content>
           <Form>
@@ -51,6 +53,7 @@ const ChannelForm: React.FC = () => {
           </Button>
         </Modal.Actions>
       </Modal>
+      </>
     )
 }
 

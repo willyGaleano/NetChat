@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static Domain.Enumeration;
 
 namespace Application.Channels
 {
@@ -43,7 +44,8 @@ namespace Application.Channels
                 {
                     Id = request.Id,
                     Name = request.Name,
-                    Description = request.Description
+                    Description = request.Description,
+                    ChannelType = ChannelType.Channel
                 };
 
                 _context.Add(channel);

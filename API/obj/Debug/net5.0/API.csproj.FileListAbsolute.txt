@@ -74,3 +74,7 @@ D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\Infrastructure.pdb
 D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\AutoMapper.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\CloudinaryDotNet.dll
+D:\PROYECTOS WILLY\NetChat\NetChat\API\bin\Debug\net5.0\Newtonsoft.Json.dll

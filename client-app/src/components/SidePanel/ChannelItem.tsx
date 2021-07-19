@@ -1,16 +1,18 @@
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Menu } from 'semantic-ui-react'
 import { IChannel } from '../../models/channels'
 
 interface IProps {
   channel: IChannel
+  changeChannel: (channel: IChannel) => void
 }
 
-export const ChannelItem: React.FC<IProps> = ({channel}) => {
+const ChannelItem: React.FC<IProps> = ({channel, changeChannel}) => {
     return (
         <Menu.Item
           key={channel.id}
-          onClick={() => console.log(channel)}
+          onClick={() => changeChannel(channel)}
           name={channel.name}
           styles={{ opacity: 0.7 }}
           >
@@ -18,3 +20,5 @@ export const ChannelItem: React.FC<IProps> = ({channel}) => {
         </Menu.Item>
     )
 }
+
+export default observer(ChannelItem);
